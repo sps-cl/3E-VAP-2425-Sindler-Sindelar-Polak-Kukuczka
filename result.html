@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruská ruleta - Setup</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #2e3b55, #1e2a3f);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            color: #fff;
+        }
+
+        #setup-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .character {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%; /* Adjust width for two characters */
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            margin: 10px;
+        }
+
+        .character img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .story {
+            margin: 10px 0;
+        }
+
+        #select-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .select-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #1e90ff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .select-button:hover {
+            background-color: #00bfff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="setup-container">
+        <!-- Character 1: Joe -->
+        <div class="character">
+            <img src="joe.png" alt="Joe">
+            <h2>Joe "The Coyote" McGraw</h2>
+            <div class="story">
+                <p>Joe je bývalý kovboj, který se stal nebezpečným zločincem po zradě svého nejlepšího přítele. 
+                Je známý svým rychlým revolverem a ještě rychlejšími úniky. 
+                S jeho houževnatostí a nezlomnou vůlí je nebezpečný protivník, který se nebojí riskovat.</p>
+            </div>
+            <div id="select-buttons">
+                <button class="select-button" onclick="selectCharacter('Joe')">Vybrat Joea</button>
+            </div>
+        </div>
+
+        <!-- Character 2: Dave -->
+        <div class="character">
+            <img src="dave.png" alt="Dave">
+            <h2>Dave "The Viper" Sullivan</h2>
+            <div class="story">
+                <p>Dave byl kdysi ctihodným šerifem, ale po tragické smrti jeho rodiny se vydal na temnou cestu 
+                pomsty. Jeho mazanost a krutost ho učinily legendou v západních městech. 
+                Nikdo neví, kdy udeří, a když to udělá, je to smrtící.</p>
+            </div>
+            <div id="select-buttons">
+                <button class="select-button" onclick="selectCharacter('Dave')">Vybrat Davea</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectCharacter(character) {
+            // Redirect to index.html with selected character
+            window.location.href = `index.html?player=${character}`;
+        }
+    </script>
+
+</body>
+</html>

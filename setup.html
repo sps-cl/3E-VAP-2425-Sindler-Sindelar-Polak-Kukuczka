@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruská ruleta - Setup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            background-color: #000;
+            position: relative;
+            background-image: url('background.png');
+            background-size: cover;
+        }
+
+        #blood-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+        }
+
+        .blood-drop {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background-color: rgba(255, 0, 0, 0.8);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        #setup-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            max-width: 1200px;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: rgba(255, 0, 0, 0.7);
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.5);
+            z-index: 1;
+            border: 5px solid #8B0000;
+        }
+
+        h1 {
+            font-size: 48px; /* Zvětšení velikosti písma */
+            color: #ffcc00; /* Zlatá barva pro nadpis */
+            text-shadow: 
+                0 0 15px #ffcc00,
+                0 0 30px #ffcc00; 
+            margin-bottom: 20px; /* Mezera pod nadpisem */
+        }
+
+        .character-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .character {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #8B0000;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            margin: 10px;
+            height: auto;
+            box-sizing: border-box;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #ffcc00;
+            text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00;
+        }
+
+        .story {
+            margin: 15px 0;
+            font-size: 20px;
+            line-height: 1.5;
+            flex-grow: 1;
+            color: #fff;
+        }
+
+        #select-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .select-button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #ff0000;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            margin: 0 10px;
+            border: 2px solid #8B0000;
+            width: 120px;
+        }
+
+        .select-button:hover {
+            background-color: #ff4d4d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.7);
+        }
+
+        .character:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-sound" src="rain.mp3" preload="auto" autoplay loop></audio>
+    <div id="blood-rain"></div> <!-- Div pro efekt deště krve -->
+
+    <div id="setup-container">
+        <h1>Vyber si postavu</h1>
+        <div class="character-container">
+            <div class="character">
+                <h2>Joseph "The Rat Poison" McGraw</h2>
+                <div class="story">
+                    <p>McGraw byl kdysi geniální vědec, který se specializoval na biochemii. Jeho výzkum v oblasti regenerace tkání byl revoluční a sliboval nesmírné výhody pro lidstvo. 
+                    Avšak kvůli svým ambicím a touze po uznání se zapletl s nebezpečným podsvětím, kde experimentoval s nelegálními drogami a neetickými pokusy. 
+                    Po tragické nehodě, kdy jeho experimenty zničily životy několika nevinných lidí, se Joe stáhl do ústraní. 
+                    Aby unikl své minulosti a získal dost peněz na obnovení laboratoře, rozhodl se zúčastnit ruské rulety. 
+                    Joe ví, že pokud přežije, bude moct znovu začít a dokázat, že jeho genialita může být použita k dobru.</p>
+                </div>
+                <div id="select-buttons">
+                    <button class="select-button" onclick="selectCharacter('Joe')">Vybrat Josepha</button>
+                </div>
+            </div>
+
+            <div class="character">
+                <h2>David "The Lost Law" Sullivan</h2>
+                <div class="story">
+                    <p>Sullivan byl respektovaný policista v malém městečku, kde udržoval zákon a pořádek. Po tragické ztrátě své rodiny během loupeže, kdy selhal při jejich ochraně, si uvědomil, že spravedlnost je v této zemi pouhou iluzí. Jeho touha po pomstě a zpochybnění spravedlnosti ho vedla k temným rozhodnutím a nakonec se sám stal zločincem. Aby se vyhnul zákonu a získal peníze na realizaci své pomsty, dostal se do podzemního světa hazardu, kde riskoval vše, co měl. Ruská ruleta mu nabízí poslední šanci na únik a odplatu, a pokud přežije, možná najde i cestu zpět k lidskosti.</p>
+                </div>
+                <div id="select-buttons">
+                    <button class="select-button" onclick="selectCharacter('Dave')">Vybrat Davida</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function selectCharacter(character) {
+        localStorage.setItem('selectedCharacter', character);
+        goToRules();
+    }
+
+    function goToRules() {
+        window.location.href = 'rules.html'; // Přesměrování na rules.html
+    }
+
+    // Vytváření efektu krve
+    const maxDrops = 20; // Maximální počet kapek
+    const bloodRainContainer = document.getElementById('blood-rain');
+
+    function createBloodDrop() {
+        const bloodDrop = document.createElement('div');
+        bloodDrop.classList.add('blood-drop');
+        bloodDrop.style.left = Math.random() * window.innerWidth + 'px'; // Náhodná pozice na šířce obrazovky
+        bloodDrop.style.animationDuration = Math.random() * 1 + 1 + 's'; // Náhodná doba pádu (mezi 1 a 2 sekundami)
+
+        bloodRainContainer.appendChild(bloodDrop);
+
+        // Odstranění kapky po jejím dopadu
+        setTimeout(() => {
+            bloodRainContainer.removeChild(bloodDrop);
+        }, 2000); // Kapka zmizí po 2 sekundách
+    }
+
+    setInterval(createBloodDrop, 200); // Každých 200 ms se vytvoří nová kapka
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruská ruleta - Hra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            position: relative;
+            background-image: url('background.png');
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: rgba(255, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.5);
+        }
+
+        #status {
+            font-size: 24px;
+            color: #ffcc00;
+            text-shadow: 0 0 5px #ffcc00;
+            margin: 20px 0;
+        }
+
+        .character {
+            font-weight: bold;
+            font-size: 26px;
+            color: #ffcc00;
+            cursor: pointer;
+        }
+
+        .highlight {
+            color: #00ff00; /* Zvýrazněná barva pro vybranou postavu */
+            text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+        }
+
+        .action-button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #ff0000;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        .action-button:hover {
+            background-color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Ruská ruleta</h1>
+        <div id="status">Hrajete za: <span id="player-name" class="character"></span></div>
+
+        <div id="characters">
+            <div class="character" onclick="selectCharacter('Joseph \"The Rat Poison\" McGraw', 0.5)">
+                Joseph "The Rat Poison" McGraw
+            </div>
+            <div class="character" onclick="selectCharacter('David \"The Lost Law\" Sullivan', 0.6)">
+                David "The Lost Law" Sullivan
+            </div>
+        </div>
+
+        <div id="action-buttons">
+            <button class="action-button" id="shoot-button" onclick="shoot()">Střelit</button>
+            <button class="action-button" id="drink-button" onclick="useBeer()">Pivo</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedCharacter = '';
+        let loseChance = 0.5; // Základní šance na prohru
+        let lives = 3; // Počet životů
+
+        function selectCharacter(character, chance) {
+            selectedCharacter = character;
+            loseChance = chance; // Nastavíme šanci na prohru na základě výběru
+            document.getElementById('player-name').innerText = selectedCharacter;
+            document.getElementById('player-name').classList.add('highlight'); // Zvýraznění jména
+            updateUI();
+        }
+
+        function shoot() {
+            if (Math.random() < loseChance) {
+                lives--;
+                document.getElementById('status').innerText = `${selectedCharacter} byl zasažen! Životy: ${lives}`;
+            } else {
+                document.getElementById('status').innerText = `${selectedCharacter} přežil!`;
+            }
+            checkGameOver();
+        }
+
+        function useBeer() {
+            if (lives < 3) {
+                lives++;
+                document.getElementById('status').innerText = `${selectedCharacter} použil pivo! Životy: ${lives}`;
+            } else {
+                document.getElementById('status').innerText = `${selectedCharacter} už nemůže použít další pivo!`;
+            }
+            checkGameOver();
+        }
+
+        function checkGameOver() {
+            if (lives <= 0) {
+                document.getElementById('status').innerText = `${selectedCharacter} prohrál!`;
+                document.getElementById('action-buttons').style.display = 'none'; // Skryje tlačítka po prohře
+            }
+        }
+
+        window.onload = function() {
+            const savedCharacter = localStorage.getItem('selectedCharacter');
+            if (savedCharacter) {
+                selectCharacter(savedCharacter);
+            }
+        };
+
+        function updateUI() {
+            document.getElementById('status').innerText = `Hrajete za: ${selectedCharacter}`;
+        }
+    </script>
+</body>
+</html>
