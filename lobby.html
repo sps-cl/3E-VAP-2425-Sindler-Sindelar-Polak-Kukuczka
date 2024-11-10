@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piskvorky Lobby</title>
+    <link rel="stylesheet" href="styleslobby.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Téma Switch (Light / Dark) -->
+    <button id="theme-switch">
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+            <path d="M12 2C8.13 2 5 5.13 5 9C5 11.57 6.51 14.21 9 15.54C8.69 16.85 8.92 18.23 9.6 19.1C10.95 20.85 13.2 21.99 15.62 21.99C18.67 21.99 21 19.66 21 16.61C21 14.01 19.67 11.78 17.47 10.83C16.34 9.93 15.29 8.73 14.39 7.32C13.79 6.21 13.36 5.05 13.11 3.88C13.04 3.67 13 3.45 13 3.23C13 2.81 12.67 2.43 12 2ZM14.56 14.47C14.21 14.81 13.74 14.88 13.35 14.58C13.21 14.48 13.1 14.31 13.1 14.14C13.1 13.98 13.2 13.82 13.33 13.74C13.67 13.4 14.15 13.44 14.56 13.87C14.87 14.19 14.92 14.66 14.56 14.47Z" fill="#fff"/>
+        </svg>
+
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+            <path d="M12 4C8.69 4 6 6.69 6 10C6 13.31 8.69 16 12 16C15.31 16 18 13.31 18 10C18 6.69 15.31 4 12 4ZM4 10C4 7.24 5.81 5.06 8.45 4.31C7.68 5.44 7.3 6.79 7.3 8.14C7.3 11.19 9.82 13.49 12.78 13.94C11.97 14.47 11.07 14.82 10.12 14.82C7.78 14.82 6 13.04 6 10.7C6 9.43 6.58 8.3 7.47 7.55C5.81 7.9 4 9.35 4 10ZM12 6.6C12.89 6.6 13.64 7.35 13.64 8.24C13.64 9.13 12.89 9.88 12 9.88C11.11 9.88 10.36 9.13 10.36 8.24C10.36 7.35 11.11 6.6 12 6.6Z" fill="#fff"/>
+        </svg>
+    </button>
+
+    
+    <div id="title">
+        <h1>Piškvorky II</h1>
+    </div>
+    
+    <div class="lobby-container">
+        <!-- Jméno hráče -->
+        <div id="name-entry" class="lobby-section">
+            <input type="text" id="player-name" placeholder="Zadejte své jméno..." />
+            <button id="name-confirm">Potvrdit</button>
+        </div>
+
+
+        <!-- Výběr obtížnosti -->
+        <div id="difficulty-options" class="lobby-section" style="display: none;">
+            <h2>Vyberte obtížnost hry</h2>
+            <div class="difficulty-block" id="easy">
+                <h3>Easy</h3>
+                <p>Počet bloků: 3x3</p>
+                <button class="connect-btn">Připojit</button>
+                <div class="connect-status"></div>
+            </div>
+            <div class="difficulty-block" id="medium">
+                <h3>Medium</h3>
+                <p>Počet bloků: 4x4</p>
+                <button class="connect-btn">Připojit</button>
+                <div class="connect-status"></div>
+            </div>
+            <div class="difficulty-block" id="hard">
+                <h3>Hard</h3>
+                <p>Počet bloků: 5x5</p>
+                <button class="connect-btn">Připojit</button>
+                <div class="connect-status"></div>
+            </div>
+            <div class="difficulty-block" id="hardcore">
+                <h3>Hardcore</h3>
+                <p>Počet bloků: 6x6</p>
+                <button class="connect-btn">Připojit</button>
+                <div class="connect-status"></div>
+            </div>
+            <div class="difficulty-block" id="lethal">
+                <h3>Lethal</h3>
+                <p>Počet bloků: 12x12</p>
+                <button class="connect-btn">Připojit</button>
+                <div class="connect-status"></div>
+            </div>
+            
+            <div class="difficulty-block" id="test">
+                <h3>Test</h3>
+                <p>Dev Playground</p>
+                <button class="connect-btn">Připojit</button>
+                <div class="connect-status"></div>
+            </div>
+        
+        </div>
+
+        <!-- Počet připojených hráčů -->
+        <div id="players-info" class="lobby-section" style="display: none;">
+            <p>Počet připojených hráčů: <span id="connected-players">0</span></p>
+        </div>
+
+        
+    </div>
+
+    <script>
+        const themeSwitch = document.getElementById('theme-switch');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+        const nameConfirmButton = document.getElementById('name-confirm');
+        const playerNameInput = document.getElementById('player-name');
+        const gameOptions = document.getElementById('difficulty-options');
+        const nameEntry = document.getElementById('name-entry');
+        const connectedPlayersSpan = document.getElementById('connected-players');
+        const playersInfo = document.getElementById('players-info');
+        const difficultyBlocks = document.querySelectorAll('.difficulty-block');
+
+        let darkMode = false;
+        let isPlayerConnected = false; // Flag for checking if the player is connected to any difficulty
+        let playerName = ''; // Store the player's name
+        let currentConnection = null; // Store the current difficulty to prevent multiple connections
+
+        // Téma přepínač
+        themeSwitch.addEventListener('click', () => {
+            darkMode = !darkMode;
+            if (darkMode) {
+                document.body.classList.add('darkmode');
+            } else {
+                document.body.classList.remove('darkmode');
+            }
+        });
+
+        // Potvrzení jména hráče
+        nameConfirmButton.addEventListener('click', () => {
+            playerName = playerNameInput.value.trim();
+            if (playerName) {
+                nameEntry.style.display = 'none'; // Hide name entry
+                gameOptions.style.display = 'block'; // Show difficulty options
+                playersInfo.style.display = 'block'; // Show connected players info
+                fetch('http://localhost:3001/players/count')
+                    .then(response => response.json())
+                    .then(data => {
+                        connectedPlayersSpan.textContent = data.count;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        });
+
+        // Připojení/odpojení k obtížnosti
+        difficultyBlocks.forEach(block => {
+            const connectButton = block.querySelector('button');
+            connectButton.addEventListener('click', () => {
+                if (isPlayerConnected) {
+                    alert('Jste již připojeni k jiné obtížnosti. Nejprve se odpojte, než se připojíte k jiné.');
+                } else {
+                    const difficulty = block.id;
+
+                    if (currentConnection) {
+                        alert('Jste již připojeni k jiné obtížnosti. Nejprve se odpojte.');
+                        return;
+                    }
+
+                    // Connect to this difficulty
+                    connectButton.textContent = 'Odpojit';
+                    block.querySelector('.connect-status').textContent = `Připojeno jako ${playerName}`;
+                    currentConnection = difficulty;
+                    isPlayerConnected = true;
+
+                    // Allow disconnect
+                    connectButton.addEventListener('click', () => {
+                        connectButton.textContent = 'Připojit';
+                        block.querySelector('.connect-status').textContent = '';
+                        currentConnection = null;
+                        isPlayerConnected = false;
+                    });
+                }
+            });
+        });
+    
+        function checkUsername() {
+    var username = document.getElementById('username').value;
+    var title = document.getElementById('title');
+    
+    if (username.trim() !== '') {
+        title.style.display = 'none';  // Skryje nadpis
+    } else {
+        title.style.display = 'block';  // Zobrazí nadpis, pokud jméno není zadáno
+    }
+}
+
+    
+    </script>
+</body>
+</html>
