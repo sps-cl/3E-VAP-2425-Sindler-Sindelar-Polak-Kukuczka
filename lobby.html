@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Téma Switch (Light / Dark) -->
     <button id="theme-switch">
         <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
             <path d="M12 2C8.13 2 5 5.13 5 9C5 11.57 6.51 14.21 9 15.54C8.69 16.85 8.92 18.23 9.6 19.1C10.95 20.85 13.2 21.99 15.62 21.99C18.67 21.99 21 19.66 21 16.61C21 14.01 19.67 11.78 17.47 10.83C16.34 9.93 15.29 8.73 14.39 7.32C13.79 6.21 13.36 5.05 13.11 3.88C13.04 3.67 13 3.45 13 3.23C13 2.81 12.67 2.43 12 2ZM14.56 14.47C14.21 14.81 13.74 14.88 13.35 14.58C13.21 14.48 13.1 14.31 13.1 14.14C13.1 13.98 13.2 13.82 13.33 13.74C13.67 13.4 14.15 13.44 14.56 13.87C14.87 14.19 14.92 14.66 14.56 14.47Z" fill="#fff"/>
@@ -25,14 +24,12 @@
     </div>
     
     <div class="lobby-container">
-        <!-- Jméno hráče -->
         <div id="name-entry" class="lobby-section">
             <input type="text" id="player-name" placeholder="Zadejte své jméno..." />
             <button id="name-confirm">Potvrdit</button>
         </div>
 
 
-        <!-- Výběr obtížnosti -->
         <div id="difficulty-options" class="lobby-section" style="display: none;">
             <h2>Vyberte obtížnost hry</h2>
             <div class="difficulty-block" id="easy">
@@ -75,7 +72,6 @@
         
         </div>
 
-        <!-- Počet připojených hráčů -->
         <div id="players-info" class="lobby-section" style="display: none;">
             <p>Počet připojených hráčů: <span id="connected-players">0</span></p>
         </div>
@@ -96,11 +92,10 @@
         const difficultyBlocks = document.querySelectorAll('.difficulty-block');
 
         let darkMode = false;
-        let isPlayerConnected = false; // Flag for checking if the player is connected to any difficulty
-        let playerName = ''; // Store the player's name
-        let currentConnection = null; // Store the current difficulty to prevent multiple connections
+        let isPlayerConnected = false; 
+        let playerName = ''; 
+        let currentConnection = null; 
 
-        // Téma přepínač
         themeSwitch.addEventListener('click', () => {
             darkMode = !darkMode;
             if (darkMode) {
@@ -110,13 +105,13 @@
             }
         });
 
-        // Potvrzení jména hráče
+
         nameConfirmButton.addEventListener('click', () => {
             playerName = playerNameInput.value.trim();
             if (playerName) {
-                nameEntry.style.display = 'none'; // Hide name entry
-                gameOptions.style.display = 'block'; // Show difficulty options
-                playersInfo.style.display = 'block'; // Show connected players info
+                nameEntry.style.display = 'none';
+                gameOptions.style.display = 'block'; 
+                playersInfo.style.display = 'block'; 
                 fetch('http://localhost:3001/players/count')
                     .then(response => response.json())
                     .then(data => {
@@ -128,7 +123,7 @@
             }
         });
 
-        // Připojení/odpojení k obtížnosti
+  
         difficultyBlocks.forEach(block => {
             const connectButton = block.querySelector('button');
             connectButton.addEventListener('click', () => {
@@ -142,13 +137,12 @@
                         return;
                     }
 
-                    // Connect to this difficulty
                     connectButton.textContent = 'Odpojit';
                     block.querySelector('.connect-status').textContent = `Připojeno jako ${playerName}`;
                     currentConnection = difficulty;
                     isPlayerConnected = true;
 
-                    // Allow disconnect
+
                     connectButton.addEventListener('click', () => {
                         connectButton.textContent = 'Připojit';
                         block.querySelector('.connect-status').textContent = '';
@@ -164,9 +158,9 @@
     var title = document.getElementById('title');
     
     if (username.trim() !== '') {
-        title.style.display = 'none';  // Skryje nadpis
+        title.style.display = 'none';  
     } else {
-        title.style.display = 'block';  // Zobrazí nadpis, pokud jméno není zadáno
+        title.style.display = 'block';  
     }
 }
 
